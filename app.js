@@ -11,6 +11,16 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 function render(items,live=false){grid.innerHTML=items.slice(0,4).map((x,i)=>`<article class="specimen"><a class="specimen-image" href="${esc(x.url||playlist)}" target="_blank" rel="noreferrer"><img src="${esc(x.artwork)}" alt="${esc(x.title)} artwork" loading="lazy" decoding="async"><span class="specimen-number">0${i+1}</span><span class="specimen-open">OPEN ↗</span></a><div class="specimen-meta"><span>${esc(x.kind||'TRANSMISSION')}</span><span>EXHAIL / 0${i+1}</span></div><h3>${esc(x.title)}</h3><p>${esc(x.subtitle||'EXHAIL AUDIO ARCHIVE')}</p></article>`).join('');if(live){statusEl.innerHTML='<i></i> PLAYLIST ORDER / LIVE';statusEl.classList.add('connected');}}
 function connectPlaylist(){const frame=document.querySelector('#soundcloud-playlist');if(!frame||!window.SC?.Widget)return;const widget=SC.Widget(frame);widget.bind(SC.Widget.Events.READY,()=>{widget.getSounds(sounds=>{if(!Array.isArray(sounds)||!sounds.length)return;const tracks=sounds.slice(0,4).map(sound=>{const title=(sound.title||'').toLowerCase();let local='';if(title.includes('2026 showcase'))local='assets/showcase-2026.png';else if(title.includes('aeon'))local='assets/aeon.png';else if(title.includes('be with you'))local='assets/be-with-you-bootleg.png';else if(title.includes('eyes cut deeper'))local='assets/eyes-cut-deeper-remix.png';let art=sound.artwork_url||sound.user?.avatar_url||'assets/exhail-logo.svg';if(art.includes('sndcdn.com'))art=art.replace(/-large\.(jpg|jpeg|png)$/i,'-t500x500.$1');return {title:sound.title||'UNTITLED TRANSMISSION',subtitle:sound.user?.username||'EXHAIL',kind:'PLAYLIST TRANSMISSION',artwork:local||art,url:sound.permalink_url||playlist};});render(tracks,true);});});}
 render(fallback);if(window.SC?.Widget)connectPlaylist();else window.addEventListener('load',connectPlaylist,{once:true});
-const boot=document.querySelector('#boot');window.addEventListener('load',()=>setTimeout(()=>boot.classList.add('done'),1800));
+const boot=document.querySelector('#boot');
+const bootMark=document.querySelector('#boot-mark');
+const bootStatus=document.querySelector('#boot-status');
+const heroMark=document.querySelector('#hero-mark');
+window.addEventListener('load',()=>{
+  if(bootMark)bootMark.classList.add('transmitting');
+  if(bootStatus)bootStatus.innerHTML='SIGNAL DETECTED<span>_</span>';
+  setTimeout(()=>{if(bootStatus)bootStatus.innerHTML='IDENTITY LOCKED<span>_</span>';},850);
+  setTimeout(()=>{boot?.classList.add('done');},2100);
+  setTimeout(()=>{heroMark?.classList.add('signal-hit');setTimeout(()=>heroMark?.classList.remove('signal-hit'),650);},2150);
+});
 const aura=document.querySelector('.cursor-aura');window.addEventListener('pointermove',e=>{aura.style.left=e.clientX+'px';aura.style.top=e.clientY+'px';});
 const zones=[...document.querySelectorAll('.zone')];if('IntersectionObserver'in window){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view');}),{threshold:.18});zones.forEach(z=>io.observe(z));}
