@@ -24,3 +24,25 @@ window.addEventListener('load',()=>{
 });
 const aura=document.querySelector('.cursor-aura');window.addEventListener('pointermove',e=>{aura.style.left=e.clientX+'px';aura.style.top=e.clientY+'px';});
 const zones=[...document.querySelectorAll('.zone')];if('IntersectionObserver'in window){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view');}),{threshold:.18});zones.forEach(z=>io.observe(z));}
+
+// Procedural EXHAIL environment: wireframe architecture, signal particles and moving interference.
+(()=>{
+ const canvas=document.querySelector('#signal-art'); if(!canvas)return;
+ const ctx=canvas.getContext('2d',{alpha:true}); let w=0,h=0,dpr=1,t=0,points=[],mouse={x:-1000,y:-1000};
+ const resize=()=>{dpr=Math.min(devicePixelRatio||1,2);w=innerWidth;h=innerHeight;canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);points=Array.from({length:Math.min(115,Math.floor(w*h/10500))},()=>({x:Math.random()*w,y:Math.random()*h,z:.3+Math.random()*.9,v:.12+Math.random()*.48,p:Math.random()*6.28}));};
+ const draw=()=>{t+=.006;ctx.clearRect(0,0,w,h);
+  // Atmospheric light wells drift independently of the scroll position.
+  const gx=w*(.68+Math.sin(t*.7)*.12),gy=h*(.44+Math.cos(t*.53)*.12),g=ctx.createRadialGradient(gx,gy,0,gx,gy,Math.max(w,h)*.56);g.addColorStop(0,'rgba(40,174,205,.10)');g.addColorStop(.45,'rgba(12,80,105,.045)');g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+  // Perspective lattice / impossible architecture.
+  ctx.save();ctx.translate(w*.53,h*.52);ctx.rotate(-.12+Math.sin(t*.22)*.025);ctx.strokeStyle='rgba(112,224,240,.105)';ctx.lineWidth=.7;
+  for(let i=-12;i<=12;i++){let x=i*42+Math.sin(t+i*.2)*8;ctx.beginPath();ctx.moveTo(x,-h);ctx.lineTo(x*.12,h);ctx.stroke();}
+  for(let j=0;j<15;j++){let y=(j/14-.5)*h*1.8;ctx.beginPath();ctx.moveTo(-w,y);ctx.lineTo(w,y*.18);ctx.stroke();}ctx.restore();
+  // Drifting luminous debris with short motion vectors.
+  for(const p of points){p.y-=p.v*p.z;if(p.y<-10){p.y=h+10;p.x=Math.random()*w;}p.x+=Math.sin(t+p.p)*.22;const dx=p.x-mouse.x,dy=p.y-mouse.y,dist=Math.hypot(dx,dy);if(dist<125){p.x+=dx/(dist||1)*.8;p.y+=dy/(dist||1)*.8;}ctx.fillStyle=`rgba(154,239,248,${.16+p.z*.35})`;ctx.fillRect(p.x,p.y,p.z*1.5,p.z*1.5);if(p.z>.95){ctx.strokeStyle='rgba(91,220,244,.18)';ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-5,p.y+12);ctx.stroke();}}
+  // Occasional horizontal signal tears.
+  if(Math.sin(t*2.7)>.985){const y=Math.random()*h;ctx.fillStyle='rgba(90,229,255,.12)';ctx.fillRect(0,y,w,1+Math.random()*3);ctx.fillStyle='rgba(255,48,143,.08)';ctx.fillRect(Math.random()*w,y+4,w*.18,1);}
+  requestAnimationFrame(draw);
+ };resize();addEventListener('resize',resize,{passive:true});addEventListener('pointermove',e=>{mouse.x=e.clientX;mouse.y=e.clientY},{passive:true});draw();
+})();
+// Split-channel cursor with restrained, intermittent chromatic glitches.
+(()=>{const cursor=document.querySelector('.glitch-cursor'),aura=document.querySelector('.cursor-aura');if(!cursor)return;let last=0;addEventListener('pointermove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';cursor.classList.add('active');if(aura){aura.style.left=e.clientX+'px';aura.style.top=e.clientY+'px';}const now=performance.now();if(now-last>180&&Math.random()>.76){cursor.classList.add('jolt');setTimeout(()=>cursor.classList.remove('jolt'),95);last=now;}},{passive:true});addEventListener('pointerdown',()=>{cursor.classList.add('jolt');setTimeout(()=>cursor.classList.remove('jolt'),140);});addEventListener('pointerleave',()=>cursor.classList.remove('active'));})();
