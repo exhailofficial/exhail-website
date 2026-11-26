@@ -1,35 +1,18 @@
-# EXHAIL — Digital Environment
+# EXHAIL // OFFICIAL SITE
 
-A single-page artist website for EXHAIL, built as a static site for Cloudflare Pages.
+An immersive, continuous artist website for EXHAIL, built around the black, white, electric-blue, cyan, grain, and restrained glitch language of the supplied release artwork. Original supplied SVG logo and release artwork are preserved.
 
-## Included
-- Cinematic transmission intro with subtle logo interference
-- Original CSS-built architectural / digital environments (no album artwork used as page backgrounds)
-- Single continuous scroll experience
-- NET:VOID origin section
-- Selected release cards and full SoundCloud playlist embed
-- PL8LIST free-download destination
-- Custom social / music connection hub for Instagram, Threads and SoundCloud
-- Responsive navigation and reduced-motion support
+## Preview
+Open `index.html` in a browser with an internet connection. The SoundCloud playlist embed and its Widget API require internet access. The four supplied 1080×1080 artwork files are shown as a local fallback if SoundCloud's Widget API is unavailable. For the four supplied releases, the site prefers those full-resolution local files even when SoundCloud returns smaller artwork thumbnails.
 
-## Files
-- `index.html` — page structure and outbound links
-- `styles.css` — visual system, environments and responsive layout
-- `app.js` — boot sequence, scroll reveals, menu, and SoundCloud playlist widget integration
-- `config.js` — optional future playlist proxy setting
-- `releases.json` — reference list for the four local featured artworks
-- `assets/` — EXHAIL logo and supplied release artwork
+## Selected Transmissions
+The page uses the official SoundCloud Widget API against the embedded EXHAIL RELEASES playlist. It requests the playlist's sound list and renders the first four entries in the playlist's current order. Reordering the playlist should therefore reorder the four featured tiles automatically. This should be tested against the live playlist after deployment; SoundCloud controls availability and returned metadata.
 
-## Deploy with the existing Cloudflare Pages / GitHub setup
-1. Open the `exhail-website` repository on GitHub.
-2. Upload the contents of this folder to the repository root, replacing `index.html`, `styles.css`, `app.js`, `config.js`, and `README.md`.
-3. Upload the `assets` folder contents, preserving the existing `assets/` folder and filenames.
-4. Commit the changes to the `main` branch. Cloudflare Pages should start its automatic deployment.
+## Free music
+The OPEN FREQUENCY portal links directly to https://pl8list.com/exhail. Downloads remain hosted on PL8LIST; this site acts as the gateway.
 
-Do not upload the outer ZIP file to the repository; extract it first.
+## Deploy update
+Upload/replace `index.html`, `styles.css`, and `app.js` in the root of the existing GitHub repository, then commit the changes. Cloudflare Pages should automatically deploy the new commit. The existing `assets/` folder and `config.js` remain required and unchanged.
 
-## Important notes
-- The SoundCloud iframe embeds the EXHAIL RELEASES playlist. The first four featured cards attempt to read playlist order through SoundCloud's Widget API. If SoundCloud does not return playlist data in a visitor's browser, the four supplied local featured cards remain as a fallback.
-- `config.js` intentionally has no proxy URL configured. No server token, Instagram API, paid feed service, or third-party social-feed integration is used.
-- Only confirmed profile destinations are included: Instagram, Threads, SoundCloud and PL8LIST. Add other streaming / social URLs once their exact destinations are confirmed.
-- No YouTube or TikTok links are included.
+## Identity update
+EXHAIL was established in 2022. The opening boot sequence stages a short signal-interference / logo-materialization / identity-lock animation. The release covers remain release artwork only; section backgrounds are original CSS-generated environments inspired by their visual language, not cover images used as backgrounds. The EXHAIL logo is rendered with a bright white treatment and cyan glow for contrast.
