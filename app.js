@@ -22,7 +22,7 @@ window.addEventListener('load',()=>{
   setTimeout(()=>{boot?.classList.add('done');},2100);
   setTimeout(()=>{heroMark?.classList.add('signal-hit');setTimeout(()=>heroMark?.classList.remove('signal-hit'),650);},2150);
 });
-const aura=document.querySelector('.cursor-aura');window.addEventListener('pointermove',e=>{aura.style.left=e.clientX+'px';aura.style.top=e.clientY+'px';});
+const aura=document.querySelector('.cursor-aura');window.addEventListener('pointermove',e=>{if(aura){aura.style.left=e.clientX+'px';aura.style.top=e.clientY+'px';}});
 const zones=[...document.querySelectorAll('.zone')];if('IntersectionObserver'in window){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view');}),{threshold:.18});zones.forEach(z=>io.observe(z));}
 
 // Procedural EXHAIL environment: wireframe architecture, signal particles and moving interference.
@@ -44,5 +44,27 @@ const zones=[...document.querySelectorAll('.zone')];if('IntersectionObserver'in 
   requestAnimationFrame(draw);
  };resize();addEventListener('resize',resize,{passive:true});addEventListener('pointermove',e=>{mouse.x=e.clientX;mouse.y=e.clientY},{passive:true});draw();
 })();
-// Split-channel cursor with restrained, intermittent chromatic glitches.
-(()=>{const cursor=document.querySelector('.glitch-cursor'),aura=document.querySelector('.cursor-aura');if(!cursor)return;let last=0;addEventListener('pointermove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';cursor.classList.add('active');if(aura){aura.style.left=e.clientX+'px';aura.style.top=e.clientY+'px';}const now=performance.now();if(now-last>180&&Math.random()>.76){cursor.classList.add('jolt');setTimeout(()=>cursor.classList.remove('jolt'),95);last=now;}},{passive:true});addEventListener('pointerdown',()=>{cursor.classList.add('jolt');setTimeout(()=>cursor.classList.remove('jolt'),140);});addEventListener('pointerleave',()=>cursor.classList.remove('active'));})();
+
+// Futuristic instrument cursor: stable reticle, expands over interactive elements.
+(()=>{const cursor=document.querySelector('.interface-cursor');if(!cursor||matchMedia('(pointer:coarse)').matches)return;addEventListener('pointermove',e=>{cursor.style.left=e.clientX+'px';cursor.style.top=e.clientY+'px';cursor.classList.add('active');},{passive:true});document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('pointerenter',()=>cursor.classList.add('hover'));el.addEventListener('pointerleave',()=>cursor.classList.remove('hover'));});addEventListener('pointerleave',()=>cursor.classList.remove('active'));})();
+
+// Organic generative environment: flowing translucent membranes, drifting spores,
+// and luminous filaments. No photographic reference assets are used as backgrounds.
+(()=>{
+ const canvas=document.querySelector('#signal-art');if(!canvas)return;const ctx=canvas.getContext('2d',{alpha:true});let w=0,h=0,dpr=1,t=0,spores=[];const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;let mouse={x:-1000,y:-1000};
+ const resize=()=>{dpr=Math.min(devicePixelRatio||1,2);w=innerWidth;h=innerHeight;canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);spores=Array.from({length:Math.min(95,Math.floor(w*h/12500))},()=>({x:Math.random()*w,y:Math.random()*h,r:.5+Math.random()*2.4,v:.12+Math.random()*.42,p:Math.random()*Math.PI*2}));};
+ const blob=(cx,cy,rx,ry,phase,color,alpha)=>{ctx.save();ctx.translate(cx,cy);ctx.rotate(phase*.12);ctx.beginPath();for(let i=0;i<=120;i++){const a=i/120*Math.PI*2;const wob=1+.13*Math.sin(a*3+phase)+.07*Math.cos(a*5-phase*.7);const x=Math.cos(a)*rx*wob,y=Math.sin(a)*ry*(1+.08*Math.sin(a*4+phase));if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.closePath();const g=ctx.createRadialGradient(-rx*.25,-ry*.3,2,0,0,Math.max(rx,ry));g.addColorStop(0,color.replace('ALPHA',String(alpha*.85)));g.addColorStop(.55,color.replace('ALPHA',String(alpha*.24)));g.addColorStop(1,color.replace('ALPHA','0'));ctx.fillStyle=g;ctx.fill();ctx.strokeStyle=color.replace('ALPHA',String(alpha*.55));ctx.lineWidth=1;ctx.stroke();ctx.restore();};
+ const draw=()=>{t+=reduced?0:.004;ctx.clearRect(0,0,w,h);
+  let x=w*(.72+Math.sin(t*.8)*.12),y=h*(.48+Math.cos(t*.62)*.16);let haze=ctx.createRadialGradient(x,y,0,x,y,Math.max(w,h)*.72);haze.addColorStop(0,'rgba(35,160,190,.13)');haze.addColorStop(.5,'rgba(24,72,104,.055)');haze.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=haze;ctx.fillRect(0,0,w,h);
+  // Large translucent, liquid-like forms drift at different depths.
+  blob(w*(.76+Math.sin(t*.55)*.09),h*(.47+Math.cos(t*.42)*.12),w*.24,h*.31,t*1.7,'rgba(72,207,232,ALPHA)',.22);
+  blob(w*(.18+Math.cos(t*.36)*.07),h*(.68+Math.sin(t*.5)*.08),w*.19,h*.23,-t*1.1,'rgba(112,121,255,ALPHA)',.13);
+  blob(w*(.52+Math.sin(t*.29)*.1),h*(.15+Math.cos(t*.38)*.05),w*.13,h*.2,t*1.3,'rgba(255,100,183,ALPHA)',.09);
+  // Fine contour filaments, like organic growth captured by an instrument scan.
+  for(let k=0;k<9;k++){const cx=w*(.72+Math.sin(t*.3+k)*.12),cy=h*(.48+Math.cos(t*.25+k*.7)*.15);ctx.beginPath();for(let i=0;i<=180;i++){const a=i/180*Math.PI*2,rad=65+k*17+Math.sin(a*3+t*1.4+k)*18;const px=cx+Math.cos(a)*rad*1.35,py=cy+Math.sin(a)*rad*.78;if(i===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}ctx.strokeStyle=`rgba(117,226,246,${.025+k*.004})`;ctx.lineWidth=1;ctx.stroke();}
+  for(const s of spores){s.y-=s.v;if(s.y<-8){s.y=h+8;s.x=Math.random()*w;}s.x+=Math.sin(t*1.8+s.p)*.24;const d=Math.hypot(s.x-mouse.x,s.y-mouse.y);if(d<150){s.x+=(s.x-mouse.x)/(d||1)*.25;s.y+=(s.y-mouse.y)/(d||1)*.25;}ctx.fillStyle=`rgba(188,245,255,${.18+Math.sin(t*2+s.p)*.12})`;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();}
+  // Sparse interface marks: corner brackets, calibration ticks and reticles, never a full grid.
+  ctx.strokeStyle='rgba(151,229,246,.22)';ctx.lineWidth=1;const pad=24,len=20;for(const [xx,yy,sx,sy] of [[pad,pad,1,1],[w-pad,pad,-1,1],[pad,h-pad,1,-1],[w-pad,h-pad,-1,-1]]){ctx.beginPath();ctx.moveTo(xx,yy+sy*len);ctx.lineTo(xx,yy);ctx.lineTo(xx+sx*len,yy);ctx.stroke();}
+  if(!reduced)requestAnimationFrame(draw);
+ };resize();addEventListener('resize',resize,{passive:true});addEventListener('pointermove',e=>{mouse.x=e.clientX;mouse.y=e.clientY},{passive:true});draw();
+})();

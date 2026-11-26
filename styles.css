@@ -18,3 +18,46 @@
 @keyframes atmo{0%{transform:translate3d(-1%,0,0) scale(1)}100%{transform:translate3d(1.5%,-1%,0) scale(1.06)}}
 @media(pointer:fine){body,a,button{cursor:none}.glitch-cursor{display:block}}
 @media(pointer:coarse){.glitch-cursor{display:none}}
+
+/* V4 art direction: living abstract matter + restrained instrument UI */
+:root{--acid:#a7f4ff;--cyan:#72dfff;--hot:#ff6ab7;--lime:#d4ff67}
+.glitch-cursor{display:none!important}
+.interface-cursor{position:fixed;z-index:95;left:0;top:0;width:34px;height:34px;pointer-events:none;opacity:0;transform:translate(-50%,-50%);border:1px solid #a9f4ffb8;border-radius:50%;box-shadow:0 0 16px #54dfff45,inset 0 0 10px #54dfff20;transition:width .18s,height .18s,opacity .2s;mix-blend-mode:screen}
+.interface-cursor:before,.interface-cursor:after{content:'';position:absolute;background:#c5f7ff;opacity:.8}
+.interface-cursor:before{width:1px;height:48px;left:50%;top:-8px}.interface-cursor:after{height:1px;width:48px;top:50%;left:-8px}
+.interface-cursor i{position:absolute;inset:8px;border:1px solid #d5fbff;border-radius:50%}.interface-cursor b{position:absolute;width:4px;height:4px;left:50%;top:50%;background:#eaffff;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 10px #72dfff}
+.interface-cursor span{position:absolute;inset:-6px;border:1px dashed #7edfff66;border-radius:50%;animation:cursor-orbit 12s linear infinite}
+.interface-cursor.active{opacity:1}.interface-cursor.hover{width:54px;height:54px}
+@keyframes cursor-orbit{to{transform:rotate(360deg)}}
+#signal-art{opacity:.96}
+/* Replace rigid lattice with a cinematic generative atmosphere. */
+.entry-zone{background:radial-gradient(ellipse at 72% 52%,#0c394b 0%,#08131c 32%,#030507 76%)}
+.entry-zone:before{opacity:.28;mix-blend-mode:screen;filter:blur(2px)}
+.entry-grid{opacity:.12;mask-image:linear-gradient(90deg,transparent,black 45%,transparent)}
+.zone{border-bottom:0}
+.section-index{border:0;position:relative;padding-bottom:14px;color:#b5c8cc}
+.section-index:after{content:'';position:absolute;bottom:0;left:0;width:min(36vw,360px);height:1px;background:linear-gradient(90deg,#8cecffb0,transparent)}
+.section-index:before{content:'⌁  SYS / EXH';position:absolute;right:0;top:-18px;color:#7bdff088;font:8px var(--mono);letter-spacing:.18em}
+.zone h2{position:relative;isolation:isolate;text-shadow:0 12px 45px #0009}
+.zone h2 em{color:var(--hot);text-shadow:2px 2px 0 #72e5ff,-1px -1px 0 #f3a5ff;mix-blend-mode:screen;margin-left:-.12em;transform:translateY(-.18em) rotate(-5deg);z-index:3}
+.transmissions-zone{background:radial-gradient(ellipse at 80% 25%,#14394a55,transparent 40%),linear-gradient(155deg,#080c12,#07090d 70%)}
+.transmissions-zone:before{background:radial-gradient(ellipse at 82% 36%,#64eaff1c,transparent 42%);mask-image:none;opacity:1}
+.specimen-image{border:1px solid #9ceaff50;outline:1px solid #9ceaff12;outline-offset:5px;box-shadow:0 18px 55px #0008}
+.specimen-image:before{content:'◉  DATA / 0'+attr(data-index);position:absolute;z-index:4;top:10px;right:10px;color:#d4faff;font:7px var(--mono);letter-spacing:.1em}
+.specimen-image:after{background:linear-gradient(135deg,transparent 45%,#82eaff25);opacity:.6}
+.specimen-open{background:#b6f3ff;color:#071016;clip-path:polygon(0 0,100% 0,100% 75%,80% 100%,0 100%)}
+.signal-state{border:1px solid #8cecff35;padding:10px 13px;background:#07151dbb;box-shadow:0 0 28px #42c9ed12}
+.netvoid-zone{background:radial-gradient(ellipse at 25% 50%,#102b38 0%,#070a0e 48%,#050608 100%)}
+.void-orbit{border-style:dashed;border-color:#9deaff65;filter:drop-shadow(0 0 12px #5de2ff55)}
+.void-core{background:radial-gradient(circle at 35% 30%,#d9ffff,#65cde9 8%,#174e67 22%,#071019 55%,transparent 70%);box-shadow:0 0 80px #4acfff3d}
+.frequency-zone{background:radial-gradient(ellipse at 80% 55%,#132d3b 0%,#07090d 56%)}
+.frequency-panel{border:1px solid #83e6ff35;background:linear-gradient(125deg,#09141bbf,#11131bd9);box-shadow:0 24px 100px #0008}
+.frequency-stamp{border:1px solid #b1f3ff7a;color:#bff5ff;transform:rotate(-7deg)}
+.download-link{border-color:#8deaff;background:#8deaff;color:#061017}
+.listen-zone{background:radial-gradient(ellipse at 50% 10%,#103244 0%,#06090e 65%)}
+.player-shell{border:1px solid #8cecff4a;background:#061019d9;box-shadow:0 25px 90px #0009}
+.nav{border-bottom:1px solid #8cecff30;background:#05090edb}
+.nav-live i{box-shadow:0 0 15px #8cecff}
+@media(pointer:fine){body,a,button{cursor:none}.interface-cursor{display:block}}
+@media(pointer:coarse){.interface-cursor{display:none}}
+@media(prefers-reduced-motion:reduce){.interface-cursor span{animation:none}}
