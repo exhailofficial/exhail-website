@@ -1,39 +1,35 @@
-# EXHAIL // NATURE.exe
+# EXHAIL — Digital Environment
 
-A static artist site starter with the supplied EXHAIL SVG logo, four supplied release artworks, a SoundCloud playlist embed, and an optional RSS relay for automatic release tiles.
+A single-page artist website for EXHAIL, built as a static site for Cloudflare Pages.
 
-## Preview locally
+## Included
+- Cinematic transmission intro with subtle logo interference
+- Original CSS-built architectural / digital environments (no album artwork used as page backgrounds)
+- Single continuous scroll experience
+- NET:VOID origin section
+- Selected release cards and full SoundCloud playlist embed
+- PL8LIST free-download destination
+- Custom social / music connection hub for Instagram, Threads and SoundCloud
+- Responsive navigation and reduced-motion support
 
-Open `index.html` in a browser. The four supplied release cards render immediately. The SoundCloud player needs an internet connection.
+## Files
+- `index.html` — page structure and outbound links
+- `styles.css` — visual system, environments and responsive layout
+- `app.js` — boot sequence, scroll reveals, menu, and SoundCloud playlist widget integration
+- `config.js` — optional future playlist proxy setting
+- `releases.json` — reference list for the four local featured artworks
+- `assets/` — EXHAIL logo and supplied release artwork
 
-## Connect automatic SoundCloud updates
+## Deploy with the existing Cloudflare Pages / GitHub setup
+1. Open the `exhail-website` repository on GitHub.
+2. Upload the contents of this folder to the repository root, replacing `index.html`, `styles.css`, `app.js`, `config.js`, and `README.md`.
+3. Upload the `assets` folder contents, preserving the existing `assets/` folder and filenames.
+4. Commit the changes to the `main` branch. Cloudflare Pages should start its automatic deployment.
 
-The browser cannot reliably read SoundCloud's RSS feed directly because of cross-origin restrictions. Deploy the small Worker in `worker/worker.js` as a separate Cloudflare Worker; it relays the public RSS feed and caches it for 10 minutes.
+Do not upload the outer ZIP file to the repository; extract it first.
 
-1. Sign in to Cloudflare and open **Workers & Pages**.
-2. Create a Worker (for example `exhail-rss`).
-3. Replace its starter code with `worker/worker.js` and deploy.
-4. Copy its URL, ending in `/rss` (for example `https://exhail-rss.<your-subdomain>.workers.dev/rss`).
-5. In `config.js`, set `rssProxy` to that full URL.
-6. Deploy this folder as a Cloudflare Pages project. The site will use RSS artwork where present and show the local archive if the feed is temporarily unavailable.
-
-The feed parser currently displays feed items only when an artwork URL can be extracted from SoundCloud's RSS item metadata. If SoundCloud changes its RSS structure or omits artwork for a track, that track will be skipped rather than shown with incorrect art. Confirm the live feed output after deployment.
-
-## Deploy the site to Cloudflare Pages
-
-1. Create a GitHub repository and upload the contents of this folder (not the outer ZIP folder).
-2. In Cloudflare, open **Workers & Pages → Create → Pages → Connect to Git**.
-3. Select the repository. Use no framework preset, no build command, and `.` as the build output directory.
-4. Deploy. Cloudflare assigns a free `*.pages.dev` address.
-
-You can also use Cloudflare Pages direct upload if you prefer not to connect GitHub; GitHub is recommended as the source backup.
-
-## Customize
-
-- Main layout: `index.html`
-- Styling: `styles.css`
-- Release card behavior: `app.js`
-- RSS relay URL: `config.js`
-- Supplied artworks and master logo: `assets/`
-
-The four local artwork files are preserved as supplied. Release links currently point to the EXHAIL playlist because individual track URLs were not supplied in the brief. Replace those links in `app.js` if you want direct track links before RSS is connected.
+## Important notes
+- The SoundCloud iframe embeds the EXHAIL RELEASES playlist. The first four featured cards attempt to read playlist order through SoundCloud's Widget API. If SoundCloud does not return playlist data in a visitor's browser, the four supplied local featured cards remain as a fallback.
+- `config.js` intentionally has no proxy URL configured. No server token, Instagram API, paid feed service, or third-party social-feed integration is used.
+- Only confirmed profile destinations are included: Instagram, Threads, SoundCloud and PL8LIST. Add other streaming / social URLs once their exact destinations are confirmed.
+- No YouTube or TikTok links are included.

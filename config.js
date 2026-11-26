@@ -1,4 +1,4 @@
-/* Add your deployed Cloudflare Worker URL here after deploying worker/worker.js.
-   Example: window.EXHAIL_CONFIG = { rssProxy: "https://exhail-rss.your-subdomain.workers.dev/rss" };
-   Leave blank to show the bundled starter releases. */
-window.EXHAIL_CONFIG = { rssProxy: "" };
+/* Playlist proxy will be configured after the Cloudflare Worker is deployed and tested.
+   Expected response: {"tracks":[{"title":"...","artist":"...","artwork":"https://...","url":"https://..."}]}
+   Tracks must be returned in SoundCloud playlist order. */
+window.EXHAIL_CONFIG={playlistProxy:""};
